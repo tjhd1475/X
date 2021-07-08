@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiashe.dao.OpinionsDao">
+    <insert id="insertOpinion">
+        insert into Opinions (Content,Solution,Type,Result) values (#{content},#{solution},#{type},#{result})
+    </insert>
+    <select id="selectAll" resultType="Opinion">
+        select Id,Content,Solution,Type,Result from Opinions order by Type;
+    </select>
+    <select id="selectById" resultType="Opinion">
+        select Id,Content,Solution,Type,Result from Opinions where Id=#{id};
+    </select>
+    <update id="updateById">
+        update Opinions set Solution=#{opinion.solution},Result=#{opinion.result} where id=#{opinion.id}
+    </update>
+</mapper>

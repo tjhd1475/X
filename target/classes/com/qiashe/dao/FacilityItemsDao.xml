@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiashe.dao.FacilityItemsDao">
+    <insert id="InsertFacilityItem">
+        insert into facilityItems (Title,Info,Positionx,Positiony,Price,Time)
+        values (#{title},#{info},#{positionX},#{positionY},#{price},#{time})
+    </insert>
+    <select id="selectFacilityItemByNameLike" resultType="FacilityItem">
+        select FacilityItemId,Title,Info,Positionx,Positiony,Price,Time from FacilityItems
+        where Title like "%" #{title} "%";
+    </select>
+    <select id="selectFacilityItemByName" resultType="FacilityItem">
+        select FacilityItemId,Title,Info,Positionx,Positiony,Price,Time from FacilityItems
+        where Title = #{title} limit 0,1;
+    </select>
+    <update id="updateFacilityItem">
+        update facilityItems set Info=#{new.info},Price=#{new.price},Positionx=#{new.positionX},Positiony=#{new.positionY},Time=#{new.time} where Title=#{oldTitle}
+    </update>
+    <select id="selectAll" resultType="FacilityItem">
+        select FacilityItemId,Title,Info,Positionx,Positiony,Price,Time from FacilityItems
+    </select>
+    <delete id="DeleteItem">
+        delete from FacilityItems where FacilityItemId=#{id}
+    </delete>
+    <select id="selectItemById" resultType="FacilityItem">
+        select FacilityItemId,Title,Info,Positionx,Positiony,Price,Time from FacilityItems where FacilityItemId=#{id}
+    </select>
+    <select id="selectPriceAVG" resultType="float">
+        select AVG(Price) from canteenItems where facilityItemId=#{FIId};
+    </select>
+    <update id="updatePrice">
+        update facilityItems set Price=#{price} where FacilityItemId=#{FIId};
+    </update>
+    <select id="selectMarkAVG" resultType="float">
+        select AVG(Mark) from canteenItems where facilityItemId=#{FIId} and Mark != -1;
+    </select>
+    <select id="selectAllMarkAVG" resultType="fI_Avg_Result">
+        select c.FacilityItemId,Title,AVG(Mark) mark,AVG(c.Price) price from canteenItems c left join facilityItems f on c.facilityItemId=f.facilityItemId where Mark!=-1 group by c.facilityItemId;
+    </select>
+</mapper>

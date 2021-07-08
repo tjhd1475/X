@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiashe.dao.TableDao">
+    <select id="selectColName" resultType="String">
+        SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE table_name = #{tableName}
+    </select>
+</mapper>

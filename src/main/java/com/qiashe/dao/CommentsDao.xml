@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiashe.dao.CommentsDao">
+    <select id="selectByCIId" resultType="Comment">
+        select Id,UserId,CanteenItemId,Content,mark,isLike from Comments where CanteenItemId=#{CIId}
+    </select>
+    <insert id="insertComments">
+        insert into Comments (UserId,CanteenItemId,Content,mark,isLike) values (#{userId},#{canteenItemId},#{content},#{mark},#{isLike})
+    </insert>
+    <select id="selectByUserIdAndCIId" resultType="Comment">
+        select Id,UserId,CanteenItemId,Content,mark,isLike from Comments where CanteenItemId=#{CIId} and UserId=#{userId};
+    </select>
+    <update id="updateByCIId">
+        update Comments set Content=#{content},mark=#{mark},isLike=#{isLike} where Id=#{id};
+    </update>
+    <select id="selectAll" resultType="Comment">
+        select Id,UserId,CanteenItemId,Content,mark,isLike from Comments;
+    </select>
+    <delete id="deleteById">
+        delete from Comments where id=#{id};
+    </delete>
+    <select id="selectCIAVG" resultType="float">
+        select AVG(mark) from Comments where CanteenItemId=#{CIId} and mark!=-1;
+    </select>
+    <select id="selectCommentsCNT" resultType="int">
+        select Count(Content) from Comments where CanteenItemId=#{CIId} and Content!='';
+    </select>
+    <select id="selectLikeCNT" resultType="int">
+        select Count(isLike) from Comments where  CanteenItemId=#{CIId} and isLike=1;
+    </select>
+    <select id="selectMarkCNT" resultType="int">
+        select Count(isLike) from Comments where  CanteenItemId=#{CIId} and mark!=-1;
+    </select>
+</mapper>

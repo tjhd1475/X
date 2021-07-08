@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiashe.dao.ImagesDao">
+    <insert id="insertImage">
+        insert into images(ImgLoc,CanteenItemId,IsMainImg) values (#{imgLoc},#{canteenItemId},#{isMainImg})
+    </insert>
+    <select id="selectMainImage" resultType="Image">
+        select ImageId from images where CanteenItemId=#{canteenItemId} and IsMainImg=1
+    </select>
+    <update id="updateToNotMainImage">
+        update Images set IsMainImg=0 where ImageId=#{imageId}
+    </update>
+    <select id="selectByCIName" resultType="Image">
+        select ImageId,ImgLoc,i.CanteenItemId,isMainImg from images i left join canteenItems c on i.CanteenItemId=c.CanteenItemId where c.name=#{name} order by isMainImg desc
+    </select>
+    <select id="selectImageById" resultType="Image">
+        select ImageId,ImgLoc,CanteenItemId,isMainImg from images where ImageId=#{imageId}
+    </select>
+    <select id="selectAll" resultType="Image">
+        select ImageId,ImgLoc,CanteenItemId,isMainImg from images
+    </select>
+    <delete id="DeleteItem">
+        delete from Images where ImageId=#{id}
+    </delete>
+    <select id="selectByCIId" resultType="Image">
+        select ImageId,ImgLoc,CanteenItemId,isMainImg from images where CanteenItemId=#{CIId};
+    </select>
+</mapper>

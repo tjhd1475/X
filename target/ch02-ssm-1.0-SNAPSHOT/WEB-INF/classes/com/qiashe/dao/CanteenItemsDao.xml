@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiashe.dao.CanteenItemsDao">
+    <insert id="InsertCanteenItem">
+        insert into CanteenItems(Name,FacilityItemId,Info,Price,SpicyRate,SweetRate,Mark)
+        values (#{name},#{facilityItemId},#{info},#{price},#{spicyRate},#{sweetRate},#{mark});
+    </insert>
+    <select id="selectCanteenItemByNameLike" resultType="CanteenItem">
+        select CanteenItemId,Name,FacilityItemId,Info,Price,SpicyRate,SweetRate,Mark from canteenItems
+        where Name like "%" #{title} "%";
+    </select>
+    <select id="selectCanteenItemByName" resultType="CanteenItem">
+        select CanteenItemId,Name,FacilityItemId,Info,Price,SpicyRate,SweetRate,Mark from canteenItems
+        where Name = #{title} limit 0,1;
+    </select>
+    <update id="updateCanteenItem">
+        update canteenItems set Info=#{new.info},Price=#{new.price},SpicyRate=#{new.spicyRate},SweetRate=#{new.sweetRate},Mark=#{new.mark} where Name=#{oldName}
+    </update>
+    <select id="selectAll" resultType="CanteenItem">
+        select CanteenItemId,Name,FacilityItemId,Info,Price,SpicyRate,SweetRate,Mark from canteenItems
+    </select>
+    <delete id="DeleteItem">
+        delete from canteenItems where CanteenItemId=#{id}
+    </delete>
+    <select id="selectByFI" resultType="CanteenItem">
+        select CanteenItemId,Name,FacilityItemId,Info,Price,SpicyRate,SweetRate,Mark from canteenItems where FacilityItemId=#{facilityItemId};
+    </select>
+    <select id="selectByCI" resultType="CanteenItem">
+        select CanteenItemId,Name,FacilityItemId,Info,Price,SpicyRate,SweetRate,Mark from canteenItems where CanteenItemId=#{canteenItemId};
+    </select>
+    <update id="updateMark">
+        update canteenItems set Mark=#{mark} where canteenItemId=#{CIId};
+    </update>
+</mapper>

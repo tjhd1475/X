@@ -1,0 +1,46 @@
+create table FacilityItems(
+	FacilityItemId int primary key auto_increment,
+	Title varchar(63),
+	Info varchar(255),
+	Positionx float,
+	Positiony float,
+	Price float,
+	Time varchar(63)
+);
+
+create table CanteenItems(
+	CanteenItemId int primary key auto_increment,
+	Name varchar(31),
+	FacilityItemId int,
+	Info varchar(255),
+	Price float,
+	SpicyRate float,
+	SweetRate float,
+	Mark float
+);
+
+create table Images(
+	ImageId int primary key auto_increment,
+	ImgLoc varchar(255),
+	CanteenItemId int,
+	IsMainImg int
+);
+
+create table Opinions(
+	Id int primary key auto_increment,
+	Content varchar(255),
+	Solution varchar(255),
+	Type int,
+	Result int
+);
+
+create table Comments(
+	Id int primary key auto_increment,
+	UserId int ,
+	CanteenItemId int,
+	Content varchar(255),
+	mark float,
+	isLike int
+);
+
+数据库密码：20_Qia!21_She
