@@ -63,4 +63,12 @@ public class CanteenItemsServiceImpl implements CanteenItemsService {
             System.out.println("===找不到2===");
         return canteenItem;
     }
+
+    @Override
+    public CanteenItem FindItemById(Integer id) {
+        CanteenItem canteenItem= canteenItemsDao.selectByCI(id);
+        if(canteenItem==null)
+            System.out.println("===找不到3===");
+        return canteenItem;
+    }
 }

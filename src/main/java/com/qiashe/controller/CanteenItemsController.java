@@ -2,6 +2,7 @@ package com.qiashe.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qiashe.Util.LoginUtil;
 import com.qiashe.dao.TableDao;
 import com.qiashe.domain.CanteenItem;
 import com.qiashe.domain.FacilityItem;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -49,8 +52,15 @@ public class CanteenItemsController {
         return json;
     }
     @RequestMapping(value = "/add")
-    public ModelAndView addCanteenItem(String name,String info,Float price,Float spicyRate,Float sweetRate,Float mark,String canteenName){
+    public ModelAndView addCanteenItem(String name, String info, Float price, Float spicyRate, Float sweetRate, Float mark, String canteenName, HttpServletRequest request){
         ModelAndView mv=new ModelAndView("message");
+        HttpSession session= request.getSession(false);
+        if(session==null){
+            mv.addObject("tips","未登录");
+            mv.addObject("before","<a href='login.jsp'>登录</a>");
+            mv.addObject("next","");
+            return mv;
+        }
         FacilityItem findFyI= facilityItemsService.FindFacilityItemByName(canteenName);
         if(findFyI==null){
             mv.addObject("tips","设施不存在");
@@ -66,8 +76,15 @@ public class CanteenItemsController {
         return mv;
     }
     @RequestMapping(value = "/addPage")
-    public ModelAndView toAddPage(String name,String info,Float price,Float spicyRate,Float sweetRate,Float mark,Integer canteenId){
+    public ModelAndView toAddPage(String name,String info,Float price,Float spicyRate,Float sweetRate,Float mark,Integer canteenId,HttpServletRequest request){
         ModelAndView mv=new ModelAndView("addCanteenItem");
+        if(!LoginUtil.validateLogon(request)){
+            mv.setViewName("message");
+            mv.addObject("tips","未登录");
+            mv.addObject("before","<a href='login.jsp'>登录</a>");
+            mv.addObject("next","");
+            return mv;
+        }
         if(name!=""&&name!=null){
             mv.addObject("name",name);
         }
@@ -115,15 +132,22 @@ public class CanteenItemsController {
         return json;
     }
     @RequestMapping(value = "/remove")
-    public ModelAndView removeItem(Integer id){
+    public ModelAndView removeItem(Integer id,HttpServletRequest request){
         ModelAndView mv= new ModelAndView("message");
+        if(!LoginUtil.validateLogon(request)){
+            mv.setViewName("message");
+            mv.addObject("tips","未登录");
+            mv.addObject("before","<a href='login.jsp'>登录</a>");
+            mv.addObject("next","");
+            return mv;
+        }
         String tip="删除失败";
         int num= canteenItemsService.RemoveItem(id);
         if(num!=0){
             tip="删除成功";
         }
         mv.addObject("tips",tip);
-        mv.addObject("next","<a href='index.jsp'>返回</a>");
+//        mv.addObject("next","<a href='index.jsp'>返回</a>");
         return mv;
     }
     @RequestMapping(value = "/findByFI",produces = "application/json;charset=utf-8")

@@ -2,8 +2,8 @@ create table FacilityItems(
 	FacilityItemId int primary key auto_increment,
 	Title varchar(63),
 	Info varchar(255),
-	Positionx float,
-	Positiony float,
+	Positionx double(16,8),
+	Positiony double(16,8),
 	Price float,
 	Time varchar(63)
 );
@@ -41,6 +41,13 @@ create table Comments(
 	Content varchar(255),
 	mark float,
 	isLike int
+);
+
+create table Users(
+	Id int primary key auto_increment,
+	UserName varchar(15),
+	Password varchar(31),
+	Level int
 );
 
 数据库密码：20_Qia!21_She

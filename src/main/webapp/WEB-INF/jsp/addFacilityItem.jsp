@@ -19,15 +19,39 @@
   <base href="<%=basePath%>"/>
 </head>
 <body>
+<font style="font-size: 30px" color="#663399">添加设施</font>
+<%--<button onclick="window.location.href = 'index.jsp'">返回</button><br>--%>
 <form action="facilityItem/add">
-    <font style="font-size: 30px" color="#663399">添加设施</font><br>
-    地名:<input type="text" name="title" id="title" value="${title}"><br>
-    相关信息:<input type="text" name="info" value="${info}"><br>
-    坐标x:<input type="text" name="positionx" value="${positionx}"><br>
-    坐标y:<input type="text" name="positiony" value="${positiony}"><br>
-    价格:<input type="text" name="price" value="${price}"><br>
-    开放时间:<input type="text" name="time" value="${time}"><br>
-    <input type="submit" value="提交">
+    <table border="1">
+        <tr>
+            <td>地名</td>
+            <td><input type="text" name="title" id="title" value="${title}"></td>
+        </tr>
+        <tr>
+            <td>相关信息</td>
+            <td><input type="text" name="info" value="${info}"></td>
+        </tr>
+        <tr>
+            <td>坐标x</td>
+            <td><input type="text" name="positionx" value="${positionx}"></td>
+        </tr>
+        <tr>
+            <td>坐标y</td>
+            <td><input type="text" name="positiony" value="${positiony}"></td>
+        </tr>
+        <tr>
+            <td>价格</td>
+            <td><input type="text" name="price" value="${price}"></td>
+        </tr>
+        <tr>
+            <td>开放时间</td>
+            <td><input type="text" name="time" value="${time}"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="提交"></td>
+        </tr>
+
+    </table>
 </form>
 <script type="text/javascript">
     var p="${info}";
@@ -36,6 +60,6 @@
         title.setAttribute("readonly","true")
     }
 </script>
-<button onclick="window.location.href = 'index.jsp'">返回</button>
+
 </body>
 </html>

@@ -25,6 +25,6 @@
         <input type="hidden" name="id" value="${opinion.id}">
         <input type="submit" value="提交">
     </form>
-<button onclick="window.location.href = 'index.jsp'">返回</button>
+<%--<button onclick="window.location.href = 'index.jsp'">返回</button>--%>
 </body>
 </html>

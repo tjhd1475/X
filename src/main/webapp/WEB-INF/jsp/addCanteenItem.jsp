@@ -37,21 +37,52 @@
     </script>
 </head>
 <body>
+    <font style="font-size: 30px" color="#663399">添加菜品</font>
+<%--    <button onclick="window.location.href = 'index.jsp'">返回</button><br>--%>
     <form action="canteenItem/add">
-        <font style="font-size: 30px" color="#663399">添加菜品</font><br>
-        名称:<input type="text" name="name" id="name" value="${name}"><br>
-        相关信息:<input type="text" name="info" value="${info}"><br>
-        价格:<input type="text" name="price" value="${price}"><br>
-        辣度:<input type="text" name="spicyRate" value="${spicyRate}"><br>
-        甜度:<input type="text" name="sweetRate" value="${sweetRate}"><br>
-        评分:<input type="text" name="mark" value="${mark}"><br>
-        所属餐厅:<input id="searching" type="text" list="typelist" name="canteenName"  value="${canteenName}" onkeyup="search()">
-        <datalist id="typelist">
 
-        </datalist>
-        <input type="submit" value="提交">
+        <table border="1">
+            <tr>
+                <td>名称</td>
+                <td><input type="text" name="name" id="name" value="${name}"></td>
+            </tr>
+            <tr>
+                <td>相关信息</td>
+                <td><input type="text" name="info" value="${info}"></td>
+            </tr>
+            <tr>
+                <td>价格</td>
+                <td><input type="text" name="price" value="${price}"></td>
+            </tr>
+            <tr>
+                <td>辣度</td>
+                <td><input type="text" name="spicyRate" value="${spicyRate}"></td>
+            </tr>
+            <tr>
+                <td>甜度</td>
+                <td><input type="text" name="sweetRate" value="${sweetRate}"></td>
+            </tr>
+            <tr>
+                <td>评分</td>
+                <td><input type="text" name="mark" value="${mark}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>所属餐厅</td>
+                <td><input id="searching" type="text" list="typelist" name="canteenName"  value="${canteenName}" onkeyup="search()"><datalist id="typelist">
+
+                </datalist></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="提交"></td>
+            </tr>
+        </table>
+
     </form>
-    <button onclick="window.location.href = 'index.jsp'">返回</button>
+
     <script type="text/javascript">
         var p="${info}";
         if(p!==""&&p!=null){

@@ -4,15 +4,15 @@ public class FacilityItem {
     private Integer facilityItemId;
     private String title;
     private String info;
-    private Float positionX;
-    private Float positionY;
+    private Double positionX;
+    private Double positionY;
     private Float price;
     private String time;
 
     public FacilityItem() {
     }
 
-    public FacilityItem(Integer facilityItemId, String title, String info, Float positionX, Float positionY, Float price, String time) {
+    public FacilityItem(Integer facilityItemId, String title, String info, Double positionX, Double positionY, Float price, String time) {
         this.facilityItemId = facilityItemId;
         this.title = title;
         this.info = info;
@@ -22,7 +22,7 @@ public class FacilityItem {
         this.time = time;
     }
 
-    public FacilityItem(String title, String info, Float positionX, Float positionY, Float price, String time) {
+    public FacilityItem(String title, String info, Double positionX, Double positionY, Float price, String time) {
         this.title = title;
         this.info = info;
         this.positionX = positionX;
@@ -55,19 +55,19 @@ public class FacilityItem {
         this.info = info;
     }
 
-    public Float getPositionX() {
+    public Double getPositionX() {
         return positionX;
     }
 
-    public void setPositionX(Float positionX) {
+    public void setPositionX(Double positionX) {
         this.positionX = positionX;
     }
 
-    public Float getPositionY() {
+    public Double getPositionY() {
         return positionY;
     }
 
-    public void setPositionY(Float positionY) {
+    public void setPositionY(Double positionY) {
         this.positionY = positionY;
     }
 

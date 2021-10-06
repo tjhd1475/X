@@ -1,6 +1,7 @@
 package com.qiashe.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qiashe.Util.LoginUtil;
 import com.qiashe.dao.TableDao;
 import com.qiashe.domain.Image;
 import com.qiashe.domain.Opinion;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -52,17 +54,31 @@ public class OpinionsController {
         return json;
     }
     @RequestMapping("/detail")
-    public ModelAndView doDetail(Integer id){
+    public ModelAndView doDetail(Integer id, HttpServletRequest request){
         ModelAndView mv=new ModelAndView("opinionDetail");
+        if(!LoginUtil.validateLogon(request)){
+            mv.setViewName("message");
+            mv.addObject("tips","未登录");
+            mv.addObject("before","<a href='login.jsp'>登录</a>");
+            mv.addObject("next","");
+            return mv;
+        }
         Opinion opinion= opinionsService.findOpinionById(id);
         mv.addObject("opinion",opinion);
         return mv;
     }
     @RequestMapping("/solution")
-    public ModelAndView doSolution(String solution,Integer result,Integer id){
+    public ModelAndView doSolution(String solution,Integer result,Integer id,HttpServletRequest request){
         ModelAndView mv=new ModelAndView("message");
+        if(!LoginUtil.validateLogon(request)){
+            mv.setViewName("message");
+            mv.addObject("tips","未登录");
+            mv.addObject("before","<a href='login.jsp'>登录</a>");
+            mv.addObject("next","");
+            return mv;
+        }
         mv.addObject("tips","成功");
-        mv.addObject("next","<a href='index.jsp'>返回</a>");
+//        mv.addObject("next","<a href='index.jsp'>返回</a>");
         Opinion opinion=new Opinion(id,null,solution,null,result);
         opinionsService.solveOpinion(opinion);
         return mv;

@@ -1,0 +1,67 @@
+#topBar{
+    background-color: #1d1d85;
+}
+#leftBar{
+    background-color: #9edbfa;
+    height: 100%;
+    text-align: center;
+}
+#title{
+    display: inline-block;
+    position: absolute;
+    left: 37%;
+    text-align: center;
+    font-size: 40px;
+    color: aliceblue;
+    height: 100%;
+    line-height: 136px;
+    vertical-align: center;
+}
+#logo{
+    display: inline-block;
+    position: relative;
+    left: 2%;
+    top: 10%;
+}
+#centerArea{
+    background-color: #b0c3d7;
+    padding: 10px;
+}
+#frame1{
+    width: 1000px;
+    height: 520px;
+}
+#table{
+    width: 100%;
+}
+.btn1{
+    display: inline-block;
+    width: 90%;
+    height: 40px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px;
+    margin: 7px;
+    border-radius: 5px;
+    background-color: #51a3d7;
+}
+.btn1:hover{
+    background-color: #78b7e3;
+}
+.container {
+    display: grid;
+    grid-template-columns: 0.45fr 1.55fr 1fr;
+    grid-template-rows: 0.6fr 1.4fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "topBar topBar topBar"
+    "leftBar centerArea centerArea"
+    "leftBar centerArea centerArea";
+}
+
+.topBar { grid-area: topBar; }
+
+.leftBar { grid-area: leftBar; }
+
+.centerArea { grid-area: centerArea; }

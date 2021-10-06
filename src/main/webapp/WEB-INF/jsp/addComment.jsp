@@ -17,17 +17,37 @@
     <base href="<%=basePath%>"/>
 </head>
 <body>
-
+    <font style="font-size: 30px" color="#663399">添加评论</font>
+<%--    <button onclick="window.location.href = 'index.jsp'">返回</button><br>--%>
     <form action="comment/addComment">
-        <font style="font-size: 30px" color="#663399">添加评论</font><br>
-        用户ID：<input type="text" name="userId"><br>
-        菜品编号：<input type="text" name="canteenItemId"><br>
-        评论：<textarea name="content"></textarea><br>
-        分数：<input type="text" name="mark"><br>
-        是否收藏：<input type="radio" name="isLike" value="1">是
-        <input type="radio" name="isLike" value="0">否
-        <input type="submit" value="提交">
+
+        <table border="1">
+            <tr>
+                <td>用户ID</td>
+                <td><input type="text" name="userId"></td>
+            </tr>
+            <tr>
+                <td>菜品编号</td>
+                <td><input type="text" name="canteenItemId"></td>
+            </tr>
+            <tr>
+                <td>评论</td>
+                <td><textarea name="content" rows="3" cols="21" style="resize:none"></textarea></td>
+            </tr>
+            <tr>
+                <td>分数</td>
+                <td><input type="text" name="mark"></td>
+            </tr>
+            <tr>
+                <td>是否收藏</td>
+                <td><input type="radio" name="isLike" value="1">是
+                    <input type="radio" name="isLike" value="0">否</td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="提交"></td>
+            </tr>
+        </table>
     </form>
-    <button onclick="window.location.href = 'index.jsp'">返回</button>
+
 </body>
 </html>

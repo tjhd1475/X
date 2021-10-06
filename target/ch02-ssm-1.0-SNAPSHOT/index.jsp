@@ -13,11 +13,15 @@
 %>
 <html>
 <head>
-    <title>Title</title>
+    <title>管理面板</title>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/indexStyle.css"/>
     <base href="<%=basePath%>"/>
     <script>
         var S=0,E=5,tname
         function findAll(tname){
+            $("#frame1").attr("hidden",true)
+            $("#table").attr("hidden",false)
             var xmlHttp=new XMLHttpRequest();
             xmlHttp.onreadystatechange=function() {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -110,18 +114,48 @@
             xmlHttp.open("get",tname+"/findAll",true);
             xmlHttp.send();
         }
-
+        $(function () {
+            $("#addFI,#addCI,#addCom,#addImg,#addOpi").click(function (){
+                $("#frame1").attr("hidden",false)
+                $("#table").attr("hidden",true)
+                var subhref = "";
+                if(event.data.url.indexOf("action")>=0){//获取当前页面的URL，URL为action形式
+                    subhref = event.data.url+"?projectId="+event.data.projectId+event.data.param;
+                }else{//URL为jsp形式
+                    subhref = event.data.url;
+                }
+                $("#frame1").attr("src",subhref)
+            })
+        })
     </script>
+
 </head>
 <body>
-<a href="facilityItem/addPage">添加地点页</a><button onclick="findAll('facilityItem')">查看所有地点</button>
-<a href="canteenItem/addPage">添加菜品页</a><button onclick="findAll('canteenItem')">查看所有菜品</button>
-<a href="upload.jsp">上传图片页</a><button onclick="findAll('image')">查看所有图片</button>
-<a href="opinion/addPage">提交反馈页</a><button onclick="findAll('opinion')">查看反馈</button>
-<a href="comment/addPage">提交评论页</a><button onclick="findAll('comment')">查看评论</button><br>
-    <table border="2" id="table">
+<div class="container">
+    <div class="topBar" id="topBar">
+        <div id="logo"><img width="100px" src="img/logo.jpg"></div>
+        <div id="title">HITSZ校园管家后台管理系统</div>
+    </div>
+    <div class="leftBar" id="leftBar">
+        <div><a id="addFI" class="btn1" href="facilityItem/addPage" target="frame1">添加地点页</a></div>
+        <div><a class="btn1" onclick="findAll('facilityItem')">查看所有地点</a></div>
+        <div><a id="addCI" class="btn1" href="canteenItem/addPage" target="frame1">添加菜品页</a></div>
+        <div><a class="btn1" onclick="findAll('canteenItem')">查看所有菜品</a></div>
+        <div><a id="addImg" class="btn1" href="image/addPage" target="frame1">上传图片页</a></div>
+        <div><a class="btn1" onclick="findAll('image')">查看所有图片</a></div>
+        <div><a id="addOpi" class="btn1" href="opinion/addPage" target="frame1">提交反馈页</a></div>
+        <div><a class="btn1" onclick="findAll('opinion')">查看反馈</a></div>
+        <div><a id="addCom" class="btn1" href="comment/addPage" target="frame1">提交评论页</a></div>
+        <div><a class="btn1" onclick="findAll('comment')">查看评论</a></div>
+        <div></div>
+    </div>
+    <div class="centerArea" id="centerArea">
+        <iframe name="frame1" id="frame1"  scrolling="no" frameborder="0" hidden></iframe>
+        <table border="2" id="table">
 
-    </table>
+        </table>
+    </div>
+</div>
 
 </body>
 </html>

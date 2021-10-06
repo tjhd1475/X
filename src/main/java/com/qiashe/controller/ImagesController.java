@@ -1,14 +1,15 @@
 package com.qiashe.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qiashe.Util.LoginUtil;
 import com.qiashe.dao.TableDao;
 import com.qiashe.domain.CanteenItem;
-import com.qiashe.domain.FacilityItem;
 import com.qiashe.domain.Image;
 import com.qiashe.service.CanteenItemsService;
 import com.qiashe.service.ImagesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -61,10 +64,42 @@ public class ImagesController {
             //添加成功后返回的信息
             String fileUrl=date.get(Calendar.YEAR)+"/"+(date.get(Calendar.MONTH)+1)+"/"+newFileName;
             mv.addObject("tips","添加成功["+fileUrl+"]");
-            mv.addObject("before","<a href='upload.jsp'>返回</a>");
+            mv.addObject("before","<a href='image/addPage'>返回</a>");
             mv.addObject("next","");
         }
         return mv;
+    }
+
+    @RequestMapping(value = "/uploadById" ,method = RequestMethod.POST)
+    public @ResponseBody String uploadById(@RequestParam("file")MultipartFile file, Integer canteenItemId,Integer isMainImg,HttpServletRequest request)throws IOException {
+        String message="fail";
+        CanteenItem canteenItem=null;
+        if(canteenItemId!=null){
+            canteenItem= canteenItemsService.FindItemById(canteenItemId);
+        }
+        if(canteenItem!=null){
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSS");
+            String res=sdf.format(new Date());
+            String rootPath=request.getSession().getServletContext().getRealPath("WEB-INF/upload");
+            String originalFileName=file.getOriginalFilename();
+            String newFileName=res+originalFileName.substring(originalFileName.lastIndexOf("."));
+            Calendar date= Calendar.getInstance();
+            File dateDirs=new File(date.get(Calendar.YEAR)+File.separator+(date.get(Calendar.MONTH)+1));
+            String newFilePath=rootPath+File.separator+dateDirs+File.separator+newFileName;
+            File newFile=new File(newFilePath);
+            if(!newFile.getParentFile().exists()){
+                newFile.getParentFile().mkdirs();
+            }
+            System.out.println(newFile);
+            file.transferTo(newFile);
+            Image image=new Image(newFilePath, canteenItemId, isMainImg);
+            service.uploadImage(image);
+
+            //添加成功后返回的信息
+            String fileUrl=date.get(Calendar.YEAR)+"/"+(date.get(Calendar.MONTH)+1)+"/"+newFileName;
+            message="success";
+        }
+        return message;
     }
 
     @RequestMapping(value = "/download")
@@ -134,15 +169,39 @@ public class ImagesController {
         return json;
     }
     @RequestMapping(value = "/remove")
-    public ModelAndView removeItem(Integer id){
+    public ModelAndView removeItem(Integer id,HttpServletRequest request){
         ModelAndView mv= new ModelAndView("message");
+        if(!LoginUtil.validateLogon(request)){
+            mv.setViewName("message");
+            mv.addObject("tips","未登录");
+            mv.addObject("before","<a href='login.jsp'>登录</a>");
+            mv.addObject("next","");
+            return mv;
+        }
         String tip="删除失败";
         int num= service.RemoveItem(id);
         if(num!=0){
             tip="删除成功";
         }
         mv.addObject("tips",tip);
-        mv.addObject("next","<a href='index.jsp'>返回</a>");
+//        mv.addObject("next","<a href='index.jsp'>返回</a>");
         return mv;
+    }
+    @RequestMapping(value = "/addPage")
+    public ModelAndView toAddPage(){
+        ModelAndView mv=new ModelAndView("upload");
+        return mv;
+    }
+    @RequestMapping(value = "/userUpload")
+    public void doUserUpload(Integer CIId,HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        CanteenItem canteenItem= null;
+        if(CIId!=null)
+            canteenItem=canteenItemsService.FindItemById(CIId);
+        if(canteenItem!=null){
+            request.setAttribute("canteenItemName",canteenItem.getName());
+            request.setAttribute("canteenItemId",CIId);
+            request.getRequestDispatcher("/userUpload.jsp").forward(request,response);
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 package com.qiashe.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qiashe.Util.LoginUtil;
 import com.qiashe.dao.TableDao;
 import com.qiashe.domain.Comment;
 import com.qiashe.service.CommentsService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -69,15 +71,22 @@ public class CommentsController {
         return mv;
     }
     @RequestMapping(value = "/remove")
-    public ModelAndView removeItem(Integer id){
+    public ModelAndView removeItem(Integer id, HttpServletRequest request){
         ModelAndView mv= new ModelAndView("message");
+        if(!LoginUtil.validateLogon(request)){
+            mv.setViewName("message");
+            mv.addObject("tips","未登录");
+            mv.addObject("before","<a href='login.jsp'>登录</a>");
+            mv.addObject("next","");
+            return mv;
+        }
         String tip="删除失败";
         int num= commentsService.removeById(id);
         if(num!=0){
             tip="删除成功";
         }
         mv.addObject("tips",tip);
-        mv.addObject("next","<a href='index.jsp'>返回</a>");
+//        mv.addObject("next","<a href='index.jsp'>返回</a>");
         return mv;
     }
     @RequestMapping(value = "/findByCIId",produces = "application/json;charset=utf-8")

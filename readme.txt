@@ -1,4 +1,5 @@
 HITAssistant后台api
+
 一：添加地点、菜品、上传图片
 （1）访问后台http://1.15.152.95:8080/HITadmin/index.jsp进行添加
 
@@ -58,10 +59,20 @@ HITAssistant后台api
 （2）得到json，例：{"CntComment":"1","CntLike":"2","mark":"5.3333335"}
 注①：如果菜品还没有人评分则mark属性为-1.0，不存在的菜品CntComment=0，CntLike=0，mark=-1
 
+十三：获取版本号
+（1）发送请求http://1.15.152.95:8080/HITadmin/version，得到版本号（如0.1.0）
+注：修改版本则发送请求时带version参数，例http://1.15.152.95:8080/HITadmin/version?verison=0.2.0，支持字符串
+
+十四：前台针对某菜品上传图片
+（1）发送请求http://1.15.152.95:8080/HITadmin/image/userUpload?CIId=<!--菜品id-->
+（2）跳转至指定菜品上传页（jsp）
+（3）上传成功返回success，否则返回fail
 
 
-TODO：找到不同食堂同名菜品的解决方案(?)
+TODO：找到不同食堂同名菜品的解决方案(finished?)
 暂时解决方案：先通过（四）找到所有食堂--->通过食堂id找到该食堂所有菜品（六）--->依次展示每个菜品--->通过菜品id找到其所有图片（三）
 TODO：为后台增加修改和删除操作(finished)
 TODO：为后台增加添加反馈和用户评论模块的测试功能(finished)
-TODO：后台加密(unfinished)
+TODO：后台加密(finished?)
+暂时解决方案：将后台的一些模块进行登录隔离了，使用时需要登录，用户名：root，密码：
+MAYTODO：整体改为分布式框架，添加redis缓存服务器优化浏览效率
